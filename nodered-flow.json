@@ -1,0 +1,1212 @@
+[
+    {
+        "id": "ef2e39af8f9ffa59",
+        "type": "tab",
+        "label": "SINHome",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f160378c7745a570",
+        "type": "modbus-read",
+        "z": "ef2e39af8f9ffa59",
+        "name": "read alarm",
+        "topic": "default",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "0",
+        "quantity": "2",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f64ad93d15ab3a8a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 380,
+        "y": 120,
+        "wires": [
+            [
+                "799ece6b78889ad6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "799ece6b78889ad6",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "var o = msg.payload;\nmsg.payload = {\n    'armed': o[0],\n    'triggered': o[1],\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "72c24a55349086f2",
+                "29e018ec5024b19b"
+            ]
+        ]
+    },
+    {
+        "id": "72c24a55349086f2",
+        "type": "ui_text",
+        "z": "ef2e39af8f9ffa59",
+        "group": "41c8fa0c9a92a07d",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Alarm status",
+        "format": "{{ msg.payload.triggered ? 'triggered' : (msg.payload.armed ? 'armed' : 'ready') }}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 790,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e01adb706c542ed3",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "arm alarm",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "0",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 540,
+        "y": 240,
+        "wires": [
+            [
+                "c3132057d6557e39"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fa523f61828c466d",
+        "type": "modbus-read",
+        "z": "ef2e39af8f9ffa59",
+        "name": "A-shades read",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "10",
+        "quantity": "10",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f64ad93d15ab3a8a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 380,
+        "y": 620,
+        "wires": [
+            [
+                "d46205a12a1d1f50"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d46205a12a1d1f50",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "var o = msg.payload;\nmsg.payload = {\n    'a_shades_up': o[0],\n    'a_shades_down': o[1],\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 620,
+        "wires": [
+            [
+                "53bbb4a78c84476d"
+            ]
+        ]
+    },
+    {
+        "id": "53bbb4a78c84476d",
+        "type": "ui_text",
+        "z": "ef2e39af8f9ffa59",
+        "group": "4d0315600ba998b0",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Shades status",
+        "format": "{{ msg.payload.a_shades_up ? 'up' : (msg.payload.a_shades_down ? 'down' : 'moving') }}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 760,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "d5f0c4ab4c90ef26",
+        "type": "ui_toast",
+        "z": "ef2e39af8f9ffa59",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "ALARM",
+        "name": "",
+        "x": 1310,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "4fbe3e2e6764289a",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 930,
+        "y": 180,
+        "wires": [
+            [
+                "6eba78f6d9a04328"
+            ]
+        ]
+    },
+    {
+        "id": "29e018ec5024b19b",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = msg.payload.triggered\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 180,
+        "wires": [
+            [
+                "4fbe3e2e6764289a"
+            ]
+        ]
+    },
+    {
+        "id": "6eba78f6d9a04328",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.topic = \"alarm\"\nmsg.payload = \"Alarm has been triggered\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 180,
+        "wires": [
+            [
+                "d5f0c4ab4c90ef26"
+            ]
+        ]
+    },
+    {
+        "id": "bcd32c4a8867f0cd",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "41c8fa0c9a92a07d",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Toggle alarm",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "alarm_arm",
+        "topicType": "str",
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "e01adb706c542ed3"
+            ]
+        ]
+    },
+    {
+        "id": "c3132057d6557e39",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "2",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 700,
+        "y": 240,
+        "wires": [
+            [
+                "5ff0d7cf120beab9"
+            ]
+        ]
+    },
+    {
+        "id": "5ff0d7cf120beab9",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 240,
+        "wires": [
+            [
+                "e01adb706c542ed3"
+            ]
+        ]
+    },
+    {
+        "id": "e6c4feaa2e9d6fb1",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 850,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "98c0eb503928528a",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "shades up",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "10",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 530,
+        "y": 680,
+        "wires": [
+            [
+                "b9d3935a786e44ee"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "172f65cc18933877",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "4d0315600ba998b0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Shades up",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "alarm_arm",
+        "topicType": "str",
+        "x": 370,
+        "y": 680,
+        "wires": [
+            [
+                "98c0eb503928528a"
+            ]
+        ]
+    },
+    {
+        "id": "b9d3935a786e44ee",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 680,
+        "y": 680,
+        "wires": [
+            [
+                "0a19f673060fe653"
+            ]
+        ]
+    },
+    {
+        "id": "0a19f673060fe653",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 680,
+        "wires": [
+            [
+                "98c0eb503928528a"
+            ]
+        ]
+    },
+    {
+        "id": "4bd5c6a9c3b94f49",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 830,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cad47fc221d9fce8",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "shades down",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "11",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 590,
+        "y": 760,
+        "wires": [
+            [
+                "5a11e9d1d3d812d6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "246565d9fe4e4b76",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "4d0315600ba998b0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Shades down",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "alarm_arm",
+        "topicType": "str",
+        "x": 380,
+        "y": 760,
+        "wires": [
+            [
+                "cad47fc221d9fce8"
+            ]
+        ]
+    },
+    {
+        "id": "5a11e9d1d3d812d6",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 740,
+        "y": 760,
+        "wires": [
+            [
+                "cae6b0c8120e82b3"
+            ]
+        ]
+    },
+    {
+        "id": "7f478173c5c26f42",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 890,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f54080ead0d88c02",
+        "type": "modbus-read",
+        "z": "ef2e39af8f9ffa59",
+        "name": "A - lights read",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "12",
+        "quantity": "1",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f64ad93d15ab3a8a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 370,
+        "y": 880,
+        "wires": [
+            [
+                "482163b517be643f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "482163b517be643f",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "var o = msg.payload;\nmsg.payload = o[0]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 880,
+        "wires": [
+            [
+                "582da9ded56cdec4"
+            ]
+        ]
+    },
+    {
+        "id": "582da9ded56cdec4",
+        "type": "ui_text",
+        "z": "ef2e39af8f9ffa59",
+        "group": "4d0315600ba998b0",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Lights status",
+        "format": "{{ msg.payload ? 'on' : 'off' }}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 750,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "cbf89b6ca0c3f54b",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "lights toggle",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "12",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 530,
+        "y": 940,
+        "wires": [
+            [
+                "35bdb06dcac2a203"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "35bdb06dcac2a203",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 680,
+        "y": 940,
+        "wires": [
+            [
+                "1cdbe365fcf483e4"
+            ]
+        ]
+    },
+    {
+        "id": "1cdbe365fcf483e4",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 940,
+        "wires": [
+            [
+                "cbf89b6ca0c3f54b"
+            ]
+        ]
+    },
+    {
+        "id": "830da2ff47c23ebc",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 830,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2d5ab916d5b4f904",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "4d0315600ba998b0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Toggle lights",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "a_lights",
+        "topicType": "str",
+        "x": 370,
+        "y": 940,
+        "wires": [
+            [
+                "cbf89b6ca0c3f54b"
+            ]
+        ]
+    },
+    {
+        "id": "cae6b0c8120e82b3",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1060,
+        "y": 760,
+        "wires": [
+            [
+                "cad47fc221d9fce8"
+            ]
+        ]
+    },
+    {
+        "id": "f1f2a1ca3ec59b90",
+        "type": "modbus-read",
+        "z": "ef2e39af8f9ffa59",
+        "name": "F-garage door read",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Input",
+        "adr": "20",
+        "quantity": "2",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f64ad93d15ab3a8a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 390,
+        "y": 1300,
+        "wires": [
+            [
+                "9be0e0e5b38cf61b"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "9be0e0e5b38cf61b",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "var o = msg.payload;\nmsg.payload = {\n    'garage_door_up': o[0],\n    'garage_door_down': o[1],\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 1300,
+        "wires": [
+            [
+                "49b0fdabc088e151"
+            ]
+        ]
+    },
+    {
+        "id": "49b0fdabc088e151",
+        "type": "ui_text",
+        "z": "ef2e39af8f9ffa59",
+        "group": "a40143c3ae837595",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Garage door",
+        "format": "{{ msg.payload.garage_door_up? 'up' : (msg.payload.garage_door_down ? 'down' : 'moving') }}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 750,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "86b17646c08a849b",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "garage door up",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "20",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 580,
+        "y": 1360,
+        "wires": [
+            [
+                "a321eedba42bbb1f"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "306e8d1ef1b1da22",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "a40143c3ae837595",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Garage door up",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "garage_door",
+        "topicType": "str",
+        "x": 380,
+        "y": 1360,
+        "wires": [
+            [
+                "86b17646c08a849b"
+            ]
+        ]
+    },
+    {
+        "id": "a321eedba42bbb1f",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 1360,
+        "wires": [
+            [
+                "11ebfbbe2511234a"
+            ]
+        ]
+    },
+    {
+        "id": "85b9f9e62690163b",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 1360,
+        "wires": [
+            [
+                "86b17646c08a849b"
+            ]
+        ]
+    },
+    {
+        "id": "11ebfbbe2511234a",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 950,
+        "y": 1360,
+        "wires": [
+            [
+                "85b9f9e62690163b"
+            ]
+        ]
+    },
+    {
+        "id": "55df9ebcee4eaaa1",
+        "type": "modbus-write",
+        "z": "ef2e39af8f9ffa59",
+        "name": "garage door down",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "Coil",
+        "adr": "21",
+        "quantity": "1",
+        "server": "f64ad93d15ab3a8a",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "x": 610,
+        "y": 1440,
+        "wires": [
+            [
+                "8c3136bbc17d8456"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7bfc508d9625bd56",
+        "type": "ui_button",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "a40143c3ae837595",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Garage door down",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "garage_door",
+        "topicType": "str",
+        "x": 390,
+        "y": 1440,
+        "wires": [
+            [
+                "55df9ebcee4eaaa1"
+            ]
+        ]
+    },
+    {
+        "id": "8c3136bbc17d8456",
+        "type": "delay",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 1440,
+        "wires": [
+            [
+                "17a29d5aeaa8ac81"
+            ]
+        ]
+    },
+    {
+        "id": "e505b2246aacd3c9",
+        "type": "switch",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 950,
+        "y": 1440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "17a29d5aeaa8ac81",
+        "type": "function",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1120,
+        "y": 1440,
+        "wires": [
+            [
+                "55df9ebcee4eaaa1"
+            ]
+        ]
+    },
+    {
+        "id": "0b5110733e2d6262",
+        "type": "ui_gauge",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "group": "4d0315600ba998b0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Room temperature",
+        "label": "C",
+        "format": "{{value}}",
+        "min": "10",
+        "max": "30",
+        "colors": [
+            "#0b76aa",
+            "#8f39ac",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 590,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "068108243bafe885",
+        "type": "modbus-read",
+        "z": "ef2e39af8f9ffa59",
+        "name": "A - room temp",
+        "topic": "",
+        "showStatusActivities": false,
+        "logIOActivities": false,
+        "showErrors": false,
+        "unitid": "",
+        "dataType": "InputRegister",
+        "adr": "10",
+        "quantity": "1",
+        "rate": "1",
+        "rateUnit": "s",
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "server": "f64ad93d15ab3a8a",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "x": 370,
+        "y": 1040,
+        "wires": [
+            [
+                "0b5110733e2d6262"
+            ],
+            [
+                "e20ff20a9abe8481"
+            ]
+        ]
+    },
+    {
+        "id": "e20ff20a9abe8481",
+        "type": "debug",
+        "z": "ef2e39af8f9ffa59",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "f64ad93d15ab3a8a",
+        "type": "modbus-client",
+        "name": "SINHome",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "tcpHost": "10.69.42.2",
+        "tcpPort": "502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true
+    },
+    {
+        "id": "41c8fa0c9a92a07d",
+        "type": "ui_group",
+        "name": "Alarm",
+        "tab": "fcc7d547c5fe2be7",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4d0315600ba998b0",
+        "type": "ui_group",
+        "name": "A",
+        "tab": "fcc7d547c5fe2be7",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a40143c3ae837595",
+        "type": "ui_group",
+        "name": "F",
+        "tab": "fcc7d547c5fe2be7",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fcc7d547c5fe2be7",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
